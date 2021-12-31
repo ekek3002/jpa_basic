@@ -1,50 +1,24 @@
 package hellojpa;
 
-import org.h2.store.Data;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Date;
 
 @Entity
-//@SequenceGenerator(name = "member_seq_generator", sequenceName = "member_seq")
-//@TableGenerator(
-//        name = "MEMBER_SEQ_GENERATOR",
-//        table = "MY_SEQUENCES",
-//        pkColumnValue = "MEMBER_SEQ", allocationSize = 1)
 public class Member {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) //IDENTITY : 기본키 생성을 데이터베이스에 위임 | SEQUENCE :
+    @Id @GeneratedValue
+    @Column(name = "MEMBER_ID")
     private Long id;
 
-    @Column(name = "name", nullable = false)
+    @Column(name = "USERNAME")
     private String username;
 
-//    //컬럼 매핑
-//    private int age;
-//
-//    @Enumerated(EnumType.STRING)
-//    private RoleType roleType;
-//
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private Date createDate;
-//
-//    @Temporal(TemporalType.TIMESTAMP)
-//    private Date lastModifiedDate;
-//
-//    private LocalDate testLocalDate;
-//    private LocalDateTime testLocalDateTime;
-//
-//    @Lob
-//    private String description;
-//
-//    @Transient
-//    private int temp;
+//    @Column(name = "TEAM_ID")
+//    private Long teamId;
 
-    public Member() {
-    }
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID")
+    private Team team;
 
     public Long getId() {
         return id;
@@ -60,5 +34,27 @@ public class Member {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Team getTeam() {
+        return team;
+    }
+
+//    public void changeTeam(Team team) {
+//        this.team = team;
+//        team.getMembers().add(this);
+//    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
+    @Override
+    public String toString() {
+        return "Member{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", team=" + team +
+                '}';
     }
 }
